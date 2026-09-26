@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import sqlite3
+import os
 from pathlib import Path
 
 from flask import Flask, jsonify, request, send_from_directory
@@ -10,6 +11,7 @@ FRONTEND_DIR = BASE_DIR / "frontend"
 DATABASE = Path(__file__).resolve().parent / "store.db"
 
 app = Flask(__name__)
+PUBLIC_DEMO = os.environ.get("PUBLIC_DEMO", "false").lower() == "true"
 
 PRODUCTS = [
     ("weekender", "The Weekender", "Everyday", 899, "Moss green", "Bestseller", "photo-1588850561407-ed78c282e89b", "#d9dfcb"),
@@ -56,6 +58,10 @@ def initialize_database():
         )
 
 
+# Initialize on import too, since production WSGI servers import this module.
+initialize_database()
+
+
 @app.get("/")
 def home():
     return send_from_directory(FRONTEND_DIR, "index.html")
@@ -75,8 +81,15 @@ def get_products():
     return jsonify([dict(row) for row in rows])
 
 
+@app.get("/api/config")
+def get_config():
+    return jsonify(public_demo=PUBLIC_DEMO)
+
+
 @app.post("/api/orders")
 def create_order():
+    if PUBLIC_DEMO:
+        return jsonify(error="This public preview is not accepting orders yet."), 403
     data = request.get_json(silent=True) or {}
     required = ("name", "phone", "address", "city", "state", "pincode")
     customer = {key: str(data.get(key, "")).strip() for key in required}
@@ -120,5 +133,4 @@ def create_order():
 
 
 if __name__ == "__main__":
-    initialize_database()
     app.run(debug=True, port=5000)
