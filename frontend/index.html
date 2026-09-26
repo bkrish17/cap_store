@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f7f5f0">
+  <meta name="description" content="Find your everyday favorite at Cap Store. Shop easy-wearing caps made for wherever the day takes you.">
+  <title>Cap Store — Find your fit</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="checkout.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <div class="announcement">A little shade, a lot of style. Free shipping on orders over ₹1,999.</div>
+  <header class="site-header">
+    <a class="brand" href="#home" aria-label="Cap Store home"><span class="brand-mark">C</span><span>CAP<span class="brand-light">STORE</span></span></a>
+    <nav class="main-nav" aria-label="Main navigation"><a href="#shop">Shop all</a><a href="#story">Our story</a><a href="#footer">Contact</a></nav>
+    <button class="cart-button" id="cart-open" aria-label="Open shopping bag"><span>Bag</span><span class="bag-icon">↗</span><span class="cart-count" id="cart-count">0</span></button>
+  </header>
+
+  <main id="home">
+    <section class="hero">
+      <div class="hero-copy"><p class="eyebrow"><span class="eyebrow-dot"></span> YOUR EVERYDAY, COVERED</p><h1>Good days<br>start <em>under</em><br>this hat.</h1><p class="hero-description">Easy-wearing caps for early starts, late sunsets, and every little detour in between.</p><a class="button button-dark" href="#shop">Find your fit <span>↘</span></a><div class="hero-note"><div class="avatar-stack"><i>✦</i><i>✳</i><i>●</i></div><span>Loved by 2,000+ cap people</span></div></div>
+      <div class="hero-art" aria-label="A person wearing a cap outdoors"><div class="sun-shape"></div><div class="hero-photo"></div><div class="hero-sticker">MADE FOR<br>THE LONG WAY<br>HOME <span>✳</span></div><div class="hero-caption">THE WEEKENDER / 01</div></div>
+    </section>
+
+    <section class="trust-strip" aria-label="Our promises"><span>GOOD FITS, NO FUSS</span><b>✳</b><span>BUILT FOR EVERYDAY</span><b>✳</b><span>MADE TO GO PLACES</span><b>✳</b><span>GOOD FITS, NO FUSS</span></section>
+
+    <section class="shop-section" id="shop">
+      <div class="section-heading"><div><p class="eyebrow">THE LINEUP</p><h2>Pick your <em>favorite.</em></h2></div><p class="section-aside">A small collection of really good<br>caps. Big personality, easy fit.</p></div>
+      <div class="filter-row" role="group" aria-label="Filter caps by style"><button class="filter-chip active" data-filter="All">All caps <span>06</span></button><button class="filter-chip" data-filter="Everyday">Everyday</button><button class="filter-chip" data-filter="Sport">Sport</button><button class="filter-chip" data-filter="Statement">Statement</button></div>
+      <div class="product-grid" id="product-grid" aria-live="polite"></div>
+    </section>
+
+    <section class="story-section" id="story"><div class="story-image"><span>OUT THERE<br>LOOKS GOOD<br>ON YOU.</span></div><div class="story-copy"><p class="eyebrow">A NOTE FROM US</p><h2>Not just a cap.<br>A <em>where-to-next.</em></h2><p>We started Cap Store with one simple idea: the right cap can make an ordinary Tuesday feel like the beginning of something. So we make the keep-forever kind — comfortable, considered, and ready when you are.</p><a class="text-link" href="#shop">Get to know the lineup <span>↗</span></a></div></section>
+    <section class="newsletter"><p class="eyebrow">THE OCCASIONAL GOOD THING</p><h2>A little sunshine<br>in your <em>inbox.</em></h2><p>New drops, good stories, and 10% off your first cap.</p><form id="newsletter-form"><label class="sr-only" for="email">Email address</label><input id="email" type="email" placeholder="Your email address" required><button type="submit" aria-label="Subscribe">↗</button></form><small id="newsletter-message">No spam. We have better things to do.</small></section>
+  </main>
+
+  <footer id="footer"><a class="brand" href="#home"><span class="brand-mark">C</span><span>CAP<span class="brand-light">STORE</span></span></a><span>Good days look good on you. © 2026 Cap Store</span><a href="mailto:hello@capstore.example">Say hello ↗</a></footer>
+
+  <div class="drawer-backdrop" id="drawer-backdrop"></div>
+  <aside class="cart-drawer" id="cart-drawer" aria-label="Shopping bag" aria-hidden="true"><div class="drawer-header"><div><p class="eyebrow">YOUR PICKS</p><h2 id="drawer-title">Your bag <span id="drawer-count">(0)</span></h2></div><button id="cart-close" class="close-button" aria-label="Close shopping bag">×</button></div><div class="cart-items" id="cart-items"></div><div class="cart-empty" id="cart-empty"><span>✳</span><h3>Room for a good cap.</h3><p>Your next favorite is waiting.</p><button class="button button-dark" id="continue-shopping">Take a look <span>↘</span></button></div><div class="cart-footer" id="cart-footer"><div class="subtotal"><span>Subtotal</span><strong id="cart-subtotal">₹0</strong></div><p>Shipping and taxes calculated at checkout.</p><button class="button button-dark checkout-button" id="checkout-button">Continue to checkout <span>↗</span></button></div><form class="checkout-form" id="checkout-form" hidden><p class="eyebrow">DELIVERY DETAILS</p><label>Full name<input name="name" autocomplete="name" required></label><label>Phone number<input name="phone" type="tel" autocomplete="tel" required></label><label>Address<input name="address" autocomplete="street-address" required></label><div class="checkout-row"><label>City<input name="city" autocomplete="address-level2" required></label><label>State<input name="state" autocomplete="address-level1" required></label></div><label>Pincode<input name="pincode" inputmode="numeric" autocomplete="postal-code" required></label><p class="checkout-error" id="checkout-error" role="alert"></p><button type="button" class="text-link checkout-back" id="checkout-back">← Back to bag</button><button class="button button-dark checkout-button" type="submit">Place order <span>↗</span></button><small>Cash on delivery demo. No payment is collected.</small></form></aside>
+</body>
+</html>
