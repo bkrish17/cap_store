@@ -10,7 +10,8 @@ const money = amount => new Intl.NumberFormat('en-IN',{style:'currency',currency
 const photo = (id,w=700) => `https://images.unsplash.com/${id}?auto=format&fit=crop&w=${w}&q=80`;
 const grid=document.querySelector('#product-grid');
 let cart;
-let publicDemo = false;
+const isStaticHost = window.location.hostname.endsWith('github.io');
+let publicDemo = isStaticHost;
 try { cart=JSON.parse(localStorage.getItem('cap-store-cart')||'{}'); } catch { cart={}; }
 
 function renderProducts(filter='All') {
@@ -32,8 +33,10 @@ function renderCart() {
 function addToCart(id){cart[id]=(cart[id]||0)+1;renderCart();document.body.classList.add('cart-open');document.querySelector('#cart-drawer').setAttribute('aria-hidden','false');}
 function closeCart(){document.body.classList.remove('cart-open');document.querySelector('#cart-drawer').setAttribute('aria-hidden','true');}
 renderProducts();renderCart();
-fetch('/api/products').then(response=>{if(!response.ok)throw new Error('API unavailable');return response.json()}).then(apiProducts=>{if(Array.isArray(apiProducts)&&apiProducts.length){products=apiProducts;renderProducts(document.querySelector('.filter-chip.active').dataset.filter);renderCart()}}).catch(()=>console.info('Using the demo catalog. Start Flask to load products from SQLite.'));
-fetch('/api/config').then(response=>response.json()).then(config=>{publicDemo=Boolean(config.public_demo);if(publicDemo)document.querySelector('#checkout-button').textContent='Checkout unavailable in preview'}).catch(()=>{});
+if(isStaticHost){document.querySelector('#checkout-button').textContent='Checkout unavailable in preview'}else{
+  fetch('/api/products').then(response=>{if(!response.ok)throw new Error('API unavailable');return response.json()}).then(apiProducts=>{if(Array.isArray(apiProducts)&&apiProducts.length){products=apiProducts;renderProducts(document.querySelector('.filter-chip.active').dataset.filter);renderCart()}}).catch(()=>console.info('Using the demo catalog. Start Flask to load products from SQLite.'));
+  fetch('/api/config').then(response=>response.json()).then(config=>{publicDemo=Boolean(config.public_demo);if(publicDemo)document.querySelector('#checkout-button').textContent='Checkout unavailable in preview'}).catch(()=>{});
+}
 document.querySelectorAll('.filter-chip').forEach(button=>button.addEventListener('click',()=>{document.querySelector('.filter-chip.active').classList.remove('active');button.classList.add('active');renderProducts(button.dataset.filter)}));
 grid.addEventListener('click',event=>{const button=event.target.closest('[data-add]');if(button)addToCart(button.dataset.add)});
 document.querySelector('#cart-items').addEventListener('click',event=>{const qtyButton=event.target.closest('[data-qty]');const removeButton=event.target.closest('[data-remove]');if(qtyButton){const id=qtyButton.dataset.qty;cart[id]=(cart[id]||0)+Number(qtyButton.dataset.change);if(cart[id]<=0)delete cart[id];renderCart()}else if(removeButton){delete cart[removeButton.dataset.remove];renderCart()}});

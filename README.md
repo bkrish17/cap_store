@@ -28,11 +28,11 @@ The Flask app serves the storefront and the API from one address. This is needed
 
 The app creates `backend/store.db` and seeds the product catalog the first time it starts. Products load from SQLite; placing a demo order saves the delivery details and order items to that database. No payment is collected.
 
-## Publish a public preview
+## Publish the storefront with GitHub Pages
 
-The repository includes a Render Blueprint in `render.yaml`. Sign in to Render, create a new Blueprint, connect `bkrish17/cap_store`, and deploy. Render will build the Flask web service and provide an `onrender.com` URL that can be shared. Future pushes to `main` deploy automatically.
+The GitHub Actions workflow in `.github/workflows/pages.yml` publishes the static files in `frontend/`. In the repository settings, open **Pages** and set **Build and deployment → Source** to **GitHub Actions**. The workflow then deploys on pushes to `main`; the site URL will be `https://bkrish17.github.io/cap_store/`.
 
-The hosted preview sets `PUBLIC_DEMO=true`: visitors can browse and use the cart, but checkout is disabled so it does not collect customer names, phone numbers, or addresses. The free service may take about a minute to wake after 15 minutes without traffic, and its local SQLite file is temporary. Use a persistent database and review privacy, security, and order handling before accepting real orders.
+GitHub Pages serves static HTML, CSS, and JavaScript; it cannot run Flask or SQLite. The public site uses its built-in demo catalog and browser cart, and checkout is disabled. The Flask backend remains available for local development. To accept real orders later, deploy the backend and connect it to a persistent database on a server host.
 
 ## API routes
 
